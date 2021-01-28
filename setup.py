@@ -1,11 +1,12 @@
 from parking_system import db
+import math
 
 db.create_all()
 
 from parking_system.models import ParkingLot
 from parking_system.config import Config, VEHICLE_MAPPING
 
-mul_factor = Config.SPACE_ON_A_FLOOR // sum(list(Config.VEHICLES_RATIO.values()))
+mul_factor = round(Config.SPACE_ON_A_FLOOR // sum(list(Config.VEHICLES_RATIO.values())))
 
 vehicle_id_count = {}
 

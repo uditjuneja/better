@@ -23,7 +23,7 @@ class ParkingLot(db.Model):
         """
         """
         if cls.query.filter_by(vehicle_no=vehicle_no).first():
-            return Responses.vehicle_still_inside
+            return Responses.VehicleStillInside
 
         vehicle_type = VEHICLE_MAPPING.get(_type.upper(), 1)
 
@@ -54,7 +54,7 @@ class ParkingLot(db.Model):
 
             db.session.commit()
 
-            response = Responses.vehicle_added
+            response = Responses.VehicleEntered
             response[0]["floor"] = lot.floor
             response[0]["lot"] = lot.id
 
@@ -67,7 +67,7 @@ class ParkingLot(db.Model):
         vehicle_entry = cls.query.filter_by(vehicle_no=vehicle_no).first()
 
         if not vehicle_entry:
-            return Responses.vehivle_not_found
+            return Responses.VehicleNotFound
 
         entry_date, entry_time = vehicle_entry.entry_date, vehicle_entry.entry_time
 
