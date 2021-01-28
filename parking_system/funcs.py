@@ -1,4 +1,5 @@
 from .models import ParkingLot
+from .db import parse_query
 
 
 def get_lot_details(data):

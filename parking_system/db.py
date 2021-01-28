@@ -42,7 +42,7 @@ ID_MAP = {
 }
 
 
-def parse_query(query, columns, query):
+def parse_query(query, columns):
     lexer = lex.lex()
     lexer.input(query)
     parsed_query = f"SELECT {columns} FROM ParkingLot"
@@ -62,11 +62,11 @@ def parse_query(query, columns, query):
                 where_condition += str(value) + " "
             else:
                 where_condition += ID_MAP.get(value, value) + " "
-        
+
         parsed_query += " " + where_condition
 
     print(parsed_query)
-    
+
     return parsed_query
 
 
