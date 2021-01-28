@@ -42,10 +42,10 @@ ID_MAP = {
 }
 
 
-def parse_query(query, columns):
+def parse_query(query):
     lexer = lex.lex()
     lexer.input(query)
-    parsed_query = f"SELECT {columns} FROM ParkingLot"
+    parsed_query = f"SELECT * FROM parking_lot"
 
     if query:
         where_condition = "WHERE"
@@ -59,16 +59,12 @@ def parse_query(query, columns):
             value, token_type = tok.value, tok.type
 
             if token_type != "ID":
-                where_condition += str(value) + " "
+                where_condition += " " + str(value).upper()
             else:
-                where_condition += ID_MAP.get(value, value) + " "
+                where_condition += " " + ID_MAP.get(value, value)
 
         parsed_query += " " + where_condition
 
     print(parsed_query)
 
     return parsed_query
-
-
-q = "colour eq 'red'"
-print(parse_query(q))

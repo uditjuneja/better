@@ -47,7 +47,7 @@ class ParkingLot(db.Model):
 
         lot = find_lot(entry_floor, vehicle_type)
         if lot:
-            lot.vehicle_no = vehicle_no
+            lot.vehicle_no = vehicle_no.upper()
             lot.colour = colour
             lot.entry_date = date.today()
             lot.entry_time = datetime.now().time()
@@ -55,8 +55,8 @@ class ParkingLot(db.Model):
             db.session.commit()
 
             response = Responses.vehicle_added
-            response[0]['floor'] = lot.floor
-            response[0]['lot'] = lot.id
+            response[0]["floor"] = lot.floor
+            response[0]["lot"] = lot.id
 
         return response
 
@@ -81,10 +81,33 @@ class ParkingLot(db.Model):
         return entry_date, entry_time
 
     @classmethod
-    def get_detail_of_filled_slots(cls):
+    def get_detail_of_unfilled_slots(cls):
         """
         """
+        response = {
+            "total slots": Config.TOTAL_SPACE,
+            "empty space": (cls.query.filter_by(vehicle_no=None).count()),
+        }
 
-        vehicle_entries = cls.query.filter_by(vehicle_no=None)
+        return response
 
-        return vehicle_entries.count()
+    @classmethod
+    def get_detail_floor_wise(cls):
+        """
+        """
+        result = (
+            cls.query.filter_by(vehicle_no=None)
+            .with_entities(cls.floor, func.count(cls.floor))
+            .group_by(cls.floor)
+            .all()
+        )
+
+        response = {}
+
+        for r, c in result:
+            response[r] = c
+
+        return {"free spaces": response}
+
+    def __repr__(cls):
+        return f"{cls.id} {cls.floor} {cls.vehicle_no}"

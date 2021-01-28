@@ -1,6 +1,11 @@
 class Responses:
     vehicle_added = (
-        {"code": "S0001", "message": "Vehicle Added to DB and Entered", "floor": None, "lot": None},
+        {
+            "code": "S0001",
+            "message": "Vehicle Added to DB and Entered",
+            "floor": None,
+            "lot": None,
+        },
         True,
     )
     vehicle_entered = ({"code": "S0002", "message": "Vehicle Entered"}, True)

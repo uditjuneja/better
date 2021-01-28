@@ -15,4 +15,5 @@ api = Api(app)
 from .models import *
 from .resource import *
 
-api.add_resource(Parking, "/Parking")
+api.add_resource(Parking, "/parking")
+api.add_resource(Floors, "/floor")
